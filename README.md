@@ -58,18 +58,18 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [v] Commit: `Implement delete function in Subscriber repository.`
     -   [v] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
+    -   [v ] Commit: `Create Notification service struct skeleton.`
+    -   [v ] Commit: `Implement subscribe function in Notification service.`
+    -   [ v] Commit: `Implement subscribe function in Notification controller.`
+    -   [ v] Commit: `Implement unsubscribe function in Notification service.`
+    -   [ v] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [ v] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
-    -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
-    -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
-    -   [ ] Commit: `Implement publish function in Program service and Program controller.`
-    -   [ ] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [ v] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
+    -   [ v] Commit: `Implement notify function in Notification service to notify each Subscriber.`
+    -   [ v] Commit: `Implement publish function in Program service and Program controller.`
+    -   [ v] Commit: `Edit Product service methods to call notify after create/delete.`
+    -   [ v] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -84,5 +84,15 @@ This is the place for you to write reflections:
 - Menurut pemahaman saya, singleton masih bisa dipakai, namun seperti pertanyaan 2, list of subscriber mau itu hashmap atau vector singleton tersebut harus diwrap menggunakan mutex, sehingga menjadi threadsafe walaupun lebih lambat. 
 
 #### Reflection Publisher-2
+- Menurut saya, pemisahan ini berhubungan denan prinsip SOLID, terutama SRP dan DIP, dimana untuk SRP, setiap modul punya fungsi spesifiknya masing2, model untuk struktur data, repository untuk akses, dan service untuk proses atau  logika bisnis. Untuk DIP, dimana setiap modul tidak boleh mengakses modul yang lebih rendah dan harus depend dengan sebuah abstraksi yang dimana tidak bisa dilakukan kalau modul masih menjadi 1. Jadi dengan dipisahnya service dan repo dari model, source code menjadi lebih modular dan rapi.
+
+- Kalau aplikasi hanya menggunakan model, maka setiap modul akan jadi palugada karena harus mengemban logika bisnis dan teknis, satu modul juga bisa menyentuk modul lain yang membuat aplikasi menjadi tight coupled. Contohnya Product harus bisa kirim notif, cari subscriber, Notification harus kirim ke setiap subscriber, Subscriber harus tau product yang ada, yang membuat aplikasi memiliki circular dependency dan sulit dilakukan TDD. 
+
+- Postman bisa saya gunakan untuk test alur dan test setiap api yang ada tanpa cek manual ke websitenya, lalu juga bisa cek api tersebut akan return apa. Untuk TK, mungkin yang bisa saya pakai nanti adalah collection runner untuk test apakah ada api yang rusak saat penambahan fitur dan scripting yang bisa saya gunakan agar test tadi bisa jadi lebih deskriptif dan otomatis.
 
 #### Reflection Publisher-3
+- Observer disini memakai push model, karena setiap ada perubahan, aplikasi akan push notifikasi ke receiver subscriber.
+
+- Kalau observer memakai pull, maka aplikasi akan menyimpan perubahan yang ada, namun subscriber harus melakukan request ke server untuk pull perubahan yang telah dilakukan. Kelebihannya subscriber jadi bebas mau tahu kapan ada product yang baru. Tapi kekurangannya server bisa jadi keberatan karena bisa jadi ada request berulang kali walaupun tidak ada update.
+
+- Program akan lebih lama, karena hanya ada 1 thread, maka proses pengiriman notifikasi akan dilakukan secara sekuensial namun tidak secara bersamaan.
